@@ -28,6 +28,22 @@
                         <th>introduction</th>
                         <th><%= current_user.introduction %></th>
                     </tr>
+                    <tr>
+                        <th>フォロー中</th>
+                        <th>
+                            <%= link_to user_following_path(current_user) do %>
+                            <%= current_user.follower.count %>
+                            <% end %>
+                        </th>
+                    </tr>
+                    <tr>
+                        <th>フォロワー</th>
+                        <th>
+                            <%= link_to user_followed_path(current_user) do %>
+                            <%= current_user.followed.count %>
+                            <% end %>
+                        </th>
+                    </tr>
                 </tbody>
             </table>
             <div class="row">

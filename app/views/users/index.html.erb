@@ -16,6 +16,22 @@
                         <th>introduction</th>
                         <th><%= current_user.introduction %></th>
                     </tr>
+                    <tr>
+                        <th>フォロー中</th>
+                        <th>
+                            <%= link_to user_following_path(current_user) do %>
+                            <%= current_user.follower.count %>
+                            <% end %>
+                        </th>
+                    </tr>
+                    <tr>
+                        <th>フォロワー</th>
+                        <th>
+                            <%= link_to user_followed_path(current_user) do %>
+                            <%= current_user.followed.count %>
+                            <% end %>
+                        </th>
+                    </tr>
                 </tbody>
             </table>
             <div class="row">
@@ -50,6 +66,7 @@
                         <th>image</th>
                         <th>name</th>
                         <th></th>
+                        <th></th>
                     </tr>
                 </thead>
                 <tbody>
@@ -57,6 +74,17 @@
                         <tr>
                             <td><%= attachment_image_tag user, :profile_image, :fill, 60, 60, class: "img-circle pull-left profile-thumb", fallback: "no_image-icon.jpg" %></td>
                             <td><%= user.name %></td>
+                            <td>フォロー数：<%= user.follower.count %></td>
+                            <td>フォロワー数：<%= user.followed.count %></td>
+                            <td>
+                                <% unless user == current_user %>
+                                    <% if current_user.following?(user) %>
+                                        <%= link_to "フォローを外す", unfollow_path(user.id), method: :post %>
+                                    <% else %>
+                                        <%= link_to "フォローする", follow_path(user.id), method: :post %>
+                                    <% end %>
+                                <% end %>
+                            </td>
                             <td><%= link_to "Show", user_path(user.id) %></td>
                         </tr>
                     <% end %>
